@@ -9,7 +9,20 @@ dotenv.config({
     path : "./env"
 })
 
-connectDB();
+connectDB()
+.then(() => {
+    app.on("err",(err) => {
+        console.log("ERR",err);
+        throw err
+    })
+    app.listen(process.env.PORT || 8000,() => {
+        console.log(`app is listening on port : ${process.env.PORT}`);
+    })
+})
+.catch((err) => {
+    console.log("ERRR" , err);
+    throw err;
+})
 
 
 
