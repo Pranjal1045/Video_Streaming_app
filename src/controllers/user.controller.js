@@ -24,7 +24,7 @@ const registerUser = asyncHandler( async (req,res) => {
        throw new ApiError(400,"All fields are required");
    }
 
-const existedUser = User.findOne({
+const existedUser = await User.findOne({
       $or : [{ username },{ email }]
    })
 
@@ -41,7 +41,7 @@ const existedUser = User.findOne({
 
 const avatar = await uploadOnCloudinary(avatarLocalPath);
 const coverImage = await uploadOnCloudinary(coverImageLocalPath);
-})
+
 
 if(!avatar) {
    throw new ApiError(400,"Avatar file is required");
@@ -67,4 +67,9 @@ if(!createdUser) {
  return res.status(201).json(
     new ApiResponse(200,createdUser,"User registered successfully")
  );
+})
+
+
+
+
 export {registerUser};
